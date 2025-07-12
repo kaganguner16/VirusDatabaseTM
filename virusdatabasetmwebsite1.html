@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<body oncontextmenu="return false;">
+  <meta charset="UTF-8">
+  <title>VirusDatabase</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      background: black;
+      color: #00ffe1;
+      font-family: 'Segoe UI', sans-serif;
+      overflow: hidden;
+      height: 100vh;
+    }
+
+    canvas {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      z-index: -1;
+    }
+
+    .content {
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      animation: fadeIn 2s ease-out forwards;
+    }
+
+    h1 {
+      font-size: 4rem;
+      margin: 0;
+      letter-spacing: 10px;
+      text-shadow: 0 0 10px #00ffe1, 0 0 30px #00ffe1;
+      animation: glitch 1s infinite;
+    }
+
+    @keyframes glitch {
+      0% { transform: translate(0); }
+      20% { transform: translate(2px, -1px); }
+      40% { transform: translate(-1px, 1px); }
+      60% { transform: translate(1px, -2px); }
+      80% { transform: translate(-2px, 2px); }
+      100% { transform: translate(0); }
+    }
+
+    a {
+      margin-top: 2rem;
+      padding: 1rem 2rem;
+      border: 2px solid #00ffe1;
+      color: #00ffe1;
+      text-decoration: none;
+      font-size: 1.3rem;
+      border-radius: 10px;
+      transition: 0.3s;
+      position: relative;
+      overflow: hidden;
+    }
+
+    a::before {
+      content: '';
+      position: absolute;
+      top: 0; left: -100%;
+      width: 100%; height: 100%;
+      background: #00ffe1;
+      opacity: 0.1;
+      transform: skewX(-30deg);
+      transition: left 0.5s ease;
+    }
+
+    a:hover::before {
+      left: 100%;
+    }
+* {
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+    a:hover {
+      background: #00ffe1;
+      color: black;
+      box-shadow: 0 0 20px #00ffe1;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: scale(0.95); }
+      to { opacity: 1; transform: scale(1); }
+    }
+  </style>
+</head>
+<body>
+  <canvas id="bg"></canvas>
+  <div class="content">
+    <h1>Virus Database™</h1>
+    <a href="https://github.com/kaganguner16/VirusDatabaseTM" target="_blank">View on GitHub</a>
+  </div>
+
+  <script>
+   
+    const canvas = document.getElementById('bg');
+    const ctx = canvas.getContext('2d');
+    let w, h, t = 0;
+
+    function resize() {
+      w = canvas.width = window.innerWidth;
+      h = canvas.height = window.innerHeight;
+    }
+
+    function draw() {
+      ctx.clearRect(0, 0, w, h);
+      for (let i = 0; i < w; i++) {
+        let y = Math.sin(i * 0.01 + t) * 20 + h / 2;
+        ctx.fillStyle = `hsl(${(i + t * 50) % 360}, 100%, 50%)`;
+        ctx.fillRect(i, y, 2, 2);
+      }
+      t += 0.02;
+      requestAnimationFrame(draw);
+    }
+
+    window.addEventListener('resize', resize);
+    resize();
+    draw();
+  </script>
+</body>
+</html>
